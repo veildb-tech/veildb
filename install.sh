@@ -112,6 +112,23 @@ else
     echo -e "${GREEN}✓ JWT_PASSPHRASE already set${NC}"
 fi
 
+# Generate APP_SECRET if not set in backend .env
+if ! grep -q "^APP_SECRET=.*[^[:space:]]" src/backend/.env; then
+    APP_SECRET=$(generate_passphrase)
+    if grep -q "^APP_SECRET=" src/backend/.env; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/^APP_SECRET=.*/APP_SECRET=$APP_SECRET/" src/backend/.env
+        else
+            sed -i "s/^APP_SECRET=.*/APP_SECRET=$APP_SECRET/" src/backend/.env
+        fi
+    else
+        echo "APP_SECRET=$APP_SECRET" >> src/backend/.env
+    fi
+    echo -e "${GREEN}✓ Generated APP_SECRET${NC}"
+else
+    echo -e "${GREEN}✓ APP_SECRET already set${NC}"
+fi
+
 echo ""
 
 # Step 2: Start Docker Compose

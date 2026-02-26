@@ -71,9 +71,6 @@ class CustomDocument extends Document {
         <body>
           <Main />
           <NextScript />
-          <script src="//code.tidio.co/sr0oytuziaatcwvbeeiwmfkqr1hug6ep.js" async />
-          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-          <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/52de1c4e96ad38157a6e1d5b/script.js" />
         </body>
       </Html>
     );
