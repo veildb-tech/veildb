@@ -50,23 +50,68 @@ readonly class DatabaseRulesEntityListener
     private function validateRule(DatabaseRule $databaseRule): void
     {
         $rules = $databaseRule->getRule();
-        if (!empty($rules)) {
-            foreach ($rules as $rule) {
-                if (!MethodEnum::from($rule['method'])) {
-                    $this->throwValidationError(sprintf("Method %s doesn't exist", $rule['method']));
+        if (empty($rules)) {
+            return;
+        }
+
+        $dbSchema = $this->parseDbSchema($databaseRule);
+
+        foreach ($rules as $rule) {
+            if (!MethodEnum::from($rule['method'])) {
+                $this->throwValidationError(sprintf("Method %s doesn't exist", $rule['method']));
+            }
+
+            foreach ($rule['columns'] as $column) {
+                if (empty($column['method'])) {
+                    $this->throwValidationError("Method is not specified for column");
                 }
 
-                foreach ($rule['columns'] as $column) {
-                    if (empty($column['method'])) {
-                        $this->throwValidationError("Method is not specified for column");
-                    }
+                if (!MethodEnum::from($column['method'])) {
+                    $this->throwValidationError(sprintf("Method %s doesn't exist", $column['method']));
+                }
 
-                    if (!MethodEnum::from($column['method'])) {
-                        $this->throwValidationError(sprintf("Method %s doesn't exist", $column['method']));
+                if ($dbSchema !== null) {
+                    $tableName = $rule['table'];
+                    $columnName = $column['name'];
+                    $columnMeta = $dbSchema[$tableName][$columnName] ?? null;
+
+                    if ($columnMeta !== null) {
+                        if (!empty($columnMeta['primary_key'])) {
+                            $this->throwValidationError(
+                                sprintf("Column '%s' in table '%s' is a primary key and cannot have a rule assigned.", $columnName, $tableName)
+                            );
+                        }
+                        if (!empty($columnMeta['foreign_key'])) {
+                            $this->throwValidationError(
+                                sprintf("Column '%s' in table '%s' is a foreign key and cannot have a rule assigned.", $columnName, $tableName)
+                            );
+                        }
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Parse the database schema JSON into an associative array, or return null if unavailable.
+     *
+     * @param DatabaseRule $databaseRule
+     * @return array<string, array<string, mixed>>|null
+     */
+    private function parseDbSchema(DatabaseRule $databaseRule): ?array
+    {
+        $db = $databaseRule->getDb();
+        if ($db === null) {
+            return null;
+        }
+
+        $schemaJson = $db->getDbSchema();
+        if (empty($schemaJson)) {
+            return null;
+        }
+
+        $schema = json_decode($schemaJson, true);
+        return is_array($schema) ? $schema : null;
     }
 
     /**

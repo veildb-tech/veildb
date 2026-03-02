@@ -1,14 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, Alert } from '@mui/material';
 import { RuleConditions } from 'src/components/rule/conditions';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useRules, useRulesDispatch } from 'src/contexts/rule/rule-context';
 import { RuleMethod } from './method';
 import { UpdateColumn } from './update-column';
 
+function getTablesReferencingTable(fullSchema, tableName) {
+  if (!fullSchema) return [];
+  return Object.keys(fullSchema).filter((table) => {
+    if (table === tableName) return false;
+    const columns = fullSchema[table];
+    return Object.values(columns).some(
+      (col) => col?.foreign_key?.foreign_table === tableName
+    );
+  });
+}
+
 export function TableConfiguration(props) {
-  const { tableSchema, selectedTable } = props;
+  const { tableSchema, selectedTable, fullSchema } = props;
 
   const rules = useRules();
   const ruleForTable = rules.find((rule) => rule.table === selectedTable) ?? {};
@@ -84,6 +95,21 @@ export function TableConfiguration(props) {
         />
       )}
 
+      {method === 'truncate' && (() => {
+        const affectedTables = getTablesReferencingTable(fullSchema, selectedTable);
+        return affectedTables.length > 0 ? (
+          <Alert severity="warning" className="!mb-4">
+            Truncating
+            {' '}
+            <strong>{selectedTable}</strong>
+            {' '}
+            will also affect the following tables that reference it via foreign key:
+            {' '}
+            <strong>{affectedTables.join(', ')}</strong>
+          </Alert>
+        ) : null;
+      })()}
+
       {method === 'truncate' && (
         <RuleConditions
           onConditionUpdate={updateConditions}
@@ -102,6 +128,8 @@ export function TableConfiguration(props) {
 TableConfiguration.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   tableSchema: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  fullSchema: PropTypes.object,
   selectedTable: PropTypes.string,
   // eslint-disable-next-line react/no-unused-prop-types
   onSave: PropTypes.func,

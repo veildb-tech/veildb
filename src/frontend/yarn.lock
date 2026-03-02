@@ -3759,11 +3759,6 @@ react-is@^19.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.2.4.tgz#a080758243c572ccd4a63386537654298c99d135"
   integrity sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA==
 
-react-js-cron@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/react-js-cron/-/react-js-cron-5.2.0.tgz#b0e3caa10fb0a0e3586e93778e72bc9be194a3d8"
-  integrity sha512-+Mxm3cS7qmIoAIz7NVY27jvsJKNZ4tx+H/nNtMUJW4DcKR7jUIL1GP0jOD79K5j86Dq8jvShKJMh30+c8bmVtA==
-
 react-select@^5.8.0:
   version "5.10.2"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.10.2.tgz#8dffc69dfd7d74684d9613e6eb27204e3b99e127"
