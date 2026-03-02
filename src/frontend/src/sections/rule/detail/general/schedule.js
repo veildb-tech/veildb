@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Cron from 'packages/react-js-cron/src';
+import Cron from 'src/components/cron';
 import cronstrue from 'cronstrue';
 import {
   Divider,

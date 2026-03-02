@@ -1,0 +1,54 @@
+.react-js-cron {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.react-js-cron > div,
+.react-js-cron-field {
+  display: flex;
+  align-items: center;
+}
+.react-js-cron-field {
+  margin-bottom: 10px;
+}
+.react-js-cron-field > span {
+  margin-left: 5px;
+}
+div.react-js-cron-select {
+  margin-left: 5px;
+}
+.react-js-cron-select.react-js-cron-select-no-prefix {
+  margin-left: 0;
+}
+div.react-js-cron-custom-select {
+  min-width: 70px;
+  z-index: 1;
+}
+.react-js-cron-custom-select-dropdown {
+  min-width: 0 !important;
+  width: 174px !important;
+}
+.react-js-cron-custom-select-dropdown-grid .rc-virtual-list-holder-inner {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+}
+.react-js-cron-custom-select-dropdown-hours-twelve-hour-clock {
+  width: 260px !important;
+}
+.react-js-cron-custom-select-dropdown-minutes-large {
+  width: 300px !important;
+}
+.react-js-cron-custom-select-dropdown-minutes-medium {
+  width: 220px !important;
+}
+.react-js-cron-period > span:first-child {
+  margin-left: 0 !important;
+}
+.react-js-cron-select-dropdown-period {
+  min-width: 0 !important;
+  width: auto !important;
+}
+.react-js-cron-clear-button {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

@@ -172,7 +172,6 @@ export default function CustomSelect(props: CustomSelectProps) {
   const clicksRef = useRef<Clicks[]>([])
   const onOptionClick = useCallback(
     (newValueOption: string) => {
-      console.log(newValueOption);
       if (!readOnly) {
         const doubleClickTimeout = 300
         const clicks = clicksRef.current
@@ -255,7 +254,7 @@ export default function CustomSelect(props: CustomSelectProps) {
 
   return (
     <Select
-      // Use 'multiple' instead of 'tags‘ mode
+      // Use 'multiple' instead of 'tags' mode
       // cf: Issue #2
       value={stringValue}
       className={internalClassName}
