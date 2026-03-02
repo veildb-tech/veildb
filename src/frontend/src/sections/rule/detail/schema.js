@@ -114,6 +114,7 @@ export function SchemaSetting(props) {
               onSave={save}
               selectedTable={selectedTable}
               tableSchema={schema[selectedTable]}
+              fullSchema={schema}
             />
             )}
             {!selectedTable && (
