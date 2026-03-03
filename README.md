@@ -1,35 +1,126 @@
+# VeilDB Overview
+
+[Documentation](https://veildb.gitbook.io/) • [Main Project](https://github.com/veildb-tech) • [Website](https://veildb.com)
+
+
+**Open-source platform for database anonymization and secure sharing across development teams.**
+
+VeilDB helps you safely share production-like databases without exposing sensitive customer data.
+
+## Why VeilDB?
+Sharing real production databases is risky:
+
+- Personal data leaks
+- Compliance violations
+- Accidental exposure in local environments
+
+At the same time, development teams need realistic data for:
+
+- Debugging
+- QA
+- Demos
+- Performance testing
+
+VeilDB solves this by automatically anonymizing sensitive data and generating clean, shareable database dumps.
+
+## VeilDB Architecture
+
+VeilDB consists of three independent components designed to separate configuration, processing, and consumption of anonymized database dumps.
+
+```
+                ┌──────────────────────────┐
+                │        VeilDB Service    │
+                │  (Web UI + Rule Engine)  │
+                └─────────────┬────────────┘
+                              │
+                              │ HTTPS / API
+                              ▼
+                ┌──────────────────────────┐
+                │        VeilDB Agent      │
+                │  (Processing Engine)     │
+                └─────────────┬────────────┘
+                              │
+                              │ Secure storage / S3 / Filesystem
+                              ▼
+                ┌──────────────────────────┐
+                │        VeilDB Client     │
+                │  (Developer CLI Tool)    │
+                └──────────────────────────┘
+```
+
+## Components Overview
+
+### Service Layer
+
+**Purpose:**
+Central configuration and rule management system.
+
+**Responsibilities:**
+
+- Configure masking/anonymization rules
+- Define environments (staging, demo, dev, etc.)
+- Trigger processing (manual, webhook, scheduled)
+- Manage Agents
+- Store metadata about processed backups
+
+**Does NOT:**
+
+- Process dumps directly
+- Store raw production data
+
+### Agent Layer
+
+**Purpose:**
+Secure processing engine installed inside infrastructure.
+
+**Runs as:**
+Docker-based application
+
+**Responsibilities:**
+
+- Receive rules from Service
+- Download database dump
+- Apply anonymization rules
+- Generate processed dump
+- Upload result to configured storage
+- Report status back to Service
+
+**Security Principle:**
+
+- Agent runs inside client’s infrastructure
+- Service does not access production database directly
+- Raw dumps never leave controlled environment unprocessed
+
+### Client Layer
+
+**Purpose:**
+Lightweight CLI tool for developers.
+
+**Responsibilities:**
+
+- Authenticate with Service
+- List available processed dumps
+- Download latest anonymized dump
+- Simplify local environment setup
+
+**Does NOT:**
+
+- Access production database
+- Process raw data
+
+
 # VeilDB Service
 
-Web-based control center for managing database anonymization rules and infrastructure.
+**This repository** is an entrypoint - a web-based control center for managing database anonymization rules and infrastructure.
 
-The Service is the brain of VeilDB. It stores configuration, manages access, and coordinates agents.
+The Service is the control panel of VeilDB. It stores configuration, manages access, and coordinates agents.
 
----
+In most cases, you need to clone and set up only this repository. To install the agent and client components, you can follow the instructions on the service dashboard or documentation.
 
-## Part of VeilDB
-
-This repository is **part** of the VeilDB platform.
+But since this repository is a **part** of the VeilDB platform, you might want to explore the agent and client repositories. More details:
 
 - Main project overview: [https://github.com/veildb-tech](https://github.com/veildb-tech)
 - Documentation: [https://veildb.gitbook.io/](https://veildb.gitbook.io/)
-
----
-
-## Responsibilities
-
-- Configure data masking rules
-- Control anonymization frequency
-- Manage user access and permissions
-- View processing logs and history
-- Manage webhooks
-
----
-
-## How It Fits
-
-The Service does not process databases directly.
-
-It sends rules and instructions to Agents, which perform the actual backup and anonymization process.
 
 ---
 
