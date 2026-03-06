@@ -18,9 +18,15 @@ export function ColumnFakeConfiguration(props) {
 
   const { ruleFakers: patterns } = useConfig();
 
+  // Normalize SQL array notation (text[]) to PostgreSQL internal notation (_text)
+  const normalizeType = (type) => {
+    if (type && type.endsWith('[]')) return `_${type.slice(0, -2)}`;
+    return type;
+  };
+
   const getPatterns = () => {
     if (row.name) {
-      const type = tableSchema[row.name]?.type;
+      const type = normalizeType(tableSchema[row.name]?.type);
       if (!type) {
         return patterns;
       }

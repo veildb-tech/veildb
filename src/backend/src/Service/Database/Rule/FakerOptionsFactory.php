@@ -12,6 +12,7 @@ class FakerOptionsFactory
     {
         return match ($type) {
             FakersEnum::RANDOM_NUMBER->value => new FakerOptions\NumberBetween(),
+            FakersEnum::DATE_BETWEEN->value => new FakerOptions\DateTimeBetween(),
             default => new FakerOptions\DefaultFaker(),
         };
     }

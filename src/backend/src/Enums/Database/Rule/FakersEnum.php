@@ -28,6 +28,7 @@ enum FakersEnum: string implements ConfigurableEnumInterface
     case FIRSTNAME = 'firstName';
     case LASTNAME = 'lastName';
     case RANDOM_NUMBER = 'numberBetween';
+    case DATE_BETWEEN = 'dateTimeBetween';
 
     public function label(): string
     {
@@ -46,7 +47,8 @@ enum FakersEnum: string implements ConfigurableEnumInterface
             self::URL => 'Url',
             self::SAFE_EMAIL => 'Safe Email',
             self::WORD => 'Random word',
-            self::RANDOM_NUMBER => 'Random Number'
+            self::RANDOM_NUMBER => 'Random Number',
+            self::DATE_BETWEEN => 'Random Date'
         };
     }
 
@@ -81,6 +83,14 @@ enum FakersEnum: string implements ConfigurableEnumInterface
                         MysqlTypesEnum::getStringTypes(),
                         PostgresTypesEnum::getNumericTypes(),
                         PostgresTypesEnum::getStringTypes()
+                    )
+                )
+            ),
+            self::DATE_BETWEEN => array_values(
+                array_unique(
+                    array_merge(
+                        MysqlTypesEnum::getDateTypes(),
+                        PostgresTypesEnum::getDateTypes()
                     )
                 )
             )
