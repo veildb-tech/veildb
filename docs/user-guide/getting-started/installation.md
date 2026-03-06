@@ -4,7 +4,7 @@
 
 ## Service Installation
 
-At the beginning, it is required to install the service at [https://github.com/dbvisor-pro/service](https://github.com/dbvisor-pro/service).
+At the beginning, it is required to install the service at [ https://github.com/dbvisor-pro/veildb](https://github.com/dbvisor-pro/veildb).
 
 It can be done easily by executing `install.sh` a script.
 

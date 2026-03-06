@@ -2,7 +2,7 @@
 
 For a comprehensive understanding of how the database processing occurs, we recommend reading the article linked below. As a brief overview, the processing involves three main components, as outlined in the [Getting Started](./) page:
 
-1. **Service:** This is the public website where you manage rules.
+1. **Service (VeilDB UI):** This is the public website where you manage rules.
 2. **Server (VeilDB Agent):** A private application installed on your server that processes the database.
 3. **Client (VeilDB Client):** Another private application that developers install on their computers to download the database.
 
@@ -22,4 +22,3 @@ Now, let's delve into the server side (VeilDB Agent) and how it processes the da
    * The VeilDB Agent sends reports and logs to the service, which can be viewed at the database edit page on the service side.
 
 ![The diagram that explains the general life cycle of processing databases](<../../.gitbook/assets/DB (2).jpg>)
-
