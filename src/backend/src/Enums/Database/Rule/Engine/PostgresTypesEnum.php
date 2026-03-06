@@ -24,6 +24,22 @@ enum PostgresTypesEnum: string
     case BIGINT = 'bigint';
     case DATETIME = 'datetime';
     case DATE = 'date';
+    case TIMESTAMP = 'timestamp';
+    case TIMESTAMPTZ = 'timestamptz';
+
+    // Array types (PostgreSQL internal notation: _type = type[])
+    case TEXT_ARRAY = '_text';
+    case VARCHAR_ARRAY = '_varchar';
+    case BPCHAR_ARRAY = '_bpchar';
+    case INT2_ARRAY = '_int2';
+    case INT4_ARRAY = '_int4';
+    case INT8_ARRAY = '_int8';
+    case FLOAT4_ARRAY = '_float4';
+    case FLOAT8_ARRAY = '_float8';
+    case NUMERIC_ARRAY = '_numeric';
+    case DATE_ARRAY = '_date';
+    case TIMESTAMP_ARRAY = '_timestamp';
+    case TIMESTAMPTZ_ARRAY = '_timestamptz';
 
     /**
      * @return array
@@ -36,7 +52,10 @@ enum PostgresTypesEnum: string
             self::VARCHAR->value,
             self::LONGTEXT->value,
             self::TINYTEXT->value,
-            self::BPCHAR->value
+            self::BPCHAR->value,
+            self::TEXT_ARRAY->value,
+            self::VARCHAR_ARRAY->value,
+            self::BPCHAR_ARRAY->value,
         ];
     }
 
@@ -57,6 +76,12 @@ enum PostgresTypesEnum: string
             self::INTEGER2->value,
             self::INTEGER4->value,
             self::INTEGER8->value,
+            self::INT2_ARRAY->value,
+            self::INT4_ARRAY->value,
+            self::INT8_ARRAY->value,
+            self::FLOAT4_ARRAY->value,
+            self::FLOAT8_ARRAY->value,
+            self::NUMERIC_ARRAY->value,
         ];
     }
 
@@ -70,6 +95,14 @@ enum PostgresTypesEnum: string
      */
     public static function getDateTypes(): array
     {
-        return [self::DATETIME->value, self::DATE->value];
+        return [
+            self::DATETIME->value,
+            self::DATE->value,
+            self::TIMESTAMP->value,
+            self::TIMESTAMPTZ->value,
+            self::DATE_ARRAY->value,
+            self::TIMESTAMP_ARRAY->value,
+            self::TIMESTAMPTZ_ARRAY->value,
+        ];
     }
 }

@@ -21,9 +21,10 @@ export function ColumnDropdown(props) {
   } = props;
 
   return (
+    <div className="flex flex-col max-w-[33%] w-full">
     <FormControl
       variant="standard"
-      className="select-0 w-full max-w-[33%]"
+      className="select-0 w-full"
     >
       <InputLabel>Column</InputLabel>
 
@@ -63,6 +64,15 @@ export function ColumnDropdown(props) {
         })}
       </Select>
     </FormControl>
+    {row.name && tableSchema[row.name]?.type && (
+      <p className="text-xs text-gray-400 mt-1 ml-2">
+        <strong>Type: </strong>
+        {tableSchema[row.name].type.startsWith('_')
+          ? `${tableSchema[row.name].type.slice(1)}[] (array)`
+          : tableSchema[row.name].type}
+      </p>
+    )}
+    </div>
   );
 }
 

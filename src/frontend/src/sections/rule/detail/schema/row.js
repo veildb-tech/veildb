@@ -7,6 +7,22 @@ import { ColumnFakeConfiguration } from './column/column-fake-configuration';
 import { ColumnDropdown } from './column/column-dropdown';
 import { MethodDropdown } from './column/method-dropdown';
 
+function ConfigurationComponent({ rowMethod, row, ...rest }) {
+  if (!rowMethod || !row.name) {
+    return (
+      <div className="w-full">
+        <Typography className="font-medium p-4" variant="caption">Select name and method</Typography>
+      </div>
+    );
+  }
+
+  return rowMethod === 'fake' ? (
+    <ColumnFakeConfiguration row={row} {...rest} />
+  ) : (
+    <ColumnConfiguration row={row} {...rest} />
+  );
+}
+
 function Row(props) {
   const {
     tableSchema,
@@ -17,22 +33,6 @@ function Row(props) {
   } = props;
 
   const [rowMethod, setRowMethod] = useState(row.method ?? '');
-
-  function ConfigurationComponent(props) {
-    if (!rowMethod || !row.name) {
-      return (
-        <div className="w-full">
-          <Typography className="font-medium p-4" variant="caption">Select name and method</Typography>
-        </div>
-      );
-    }
-
-    return rowMethod === 'fake' ? (
-      <ColumnFakeConfiguration {...props} />
-    ) : (
-      <ColumnConfiguration {...props} />
-    );
-  }
 
   return useMemo(() => (
     <div
@@ -63,8 +63,10 @@ function Row(props) {
               onUpdate={updateRow}
               rowMethod={rowMethod}
               setRowMethod={setRowMethod}
+              tableSchema={tableSchema}
             />
             <ConfigurationComponent
+              rowMethod={rowMethod}
               row={row}
               onDelete={deleteRow}
               onUpdate={updateRow}

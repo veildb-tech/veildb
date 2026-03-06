@@ -14,7 +14,7 @@ const methods = [
     value: 'truncate',
   },
   {
-    label: 'Custom',
+    label: 'Anonymize/Mask Data',
     value: 'custom',
   },
 ];

@@ -4,26 +4,35 @@ import {
   MenuItem,
   FormControl,
   Select,
-  InputLabel
+  InputLabel,
+  Tooltip,
 } from '@mui/material';
+import { useConfig } from 'src/contexts/config-context';
 
 export function MethodDropdown(props) {
   const {
     row,
     onUpdate,
     rowMethod,
-    setRowMethod
+    setRowMethod,
+    tableSchema,
   } = props;
 
+  const { ruleFakers: fakers } = useConfig();
+
+  const columnType = (() => {
+    const type = tableSchema?.[row.name]?.type;
+    if (!type) return null;
+    return type.endsWith('[]') ? `_${type.slice(0, -2)}` : type;
+  })();
+
+  const fakeAvailable = !columnType || (fakers ?? []).some(
+    (f) => f.field_types.includes(columnType)
+  );
+
   const methods = [
-    {
-      label: 'Update',
-      value: 'update'
-    },
-    {
-      label: 'Fake',
-      value: 'fake'
-    }
+    { label: 'Update', value: 'update' },
+    { label: 'Fake', value: 'fake', disabled: !fakeAvailable },
   ];
 
   const updateMethod = (event) => {
@@ -51,12 +60,13 @@ export function MethodDropdown(props) {
           Select method
         </MenuItem>
         {methods.map((method) => (
-          <MenuItem
-            value={method.value}
-            key={method.value}
-          >
-            {method.label}
-          </MenuItem>
+            <MenuItem
+              value={method.value}
+              disabled={method.disabled}
+
+            >
+              {method.label}
+            </MenuItem>
         ))}
       </Select>
     </FormControl>
@@ -68,5 +78,7 @@ MethodDropdown.propTypes = {
   row: PropTypes.object,
   onUpdate: PropTypes.func,
   rowMethod: PropTypes.string,
-  setRowMethod: PropTypes.func
+  setRowMethod: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  tableSchema: PropTypes.object,
 };
