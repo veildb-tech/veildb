@@ -26,7 +26,7 @@ class UserFixture extends Fixture
         ]
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this::$users as $userFixture) {
             $user = new User();
